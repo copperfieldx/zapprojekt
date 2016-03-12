@@ -11,6 +11,7 @@ class Dane
 
 public:
     Dane();
+    ~Dane();
     void wczytajDane();
     void drukujDane();
 

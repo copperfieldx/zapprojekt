@@ -13,6 +13,10 @@ Gen::Gen()
 
 Gen::~Gen()
 {
+}
+
+/*Gen::~Gen()
+{
     delete nastepny_;
     //delete wartosc_;
     //delete nastepny_;
@@ -24,21 +28,21 @@ Gen::~Gen()
         akt=akt->nastepny_;
         delete tmp;
     }
-    cout<<"gen usutniety /n";*/
-}
+    cout<<"gen usutniety /n";
+}*/
 
 
-void Gen::usunListe()
+void usunListe(Gen *wsk)
 {
-    Gen*akt=this;
-    Gen*tmp=this;
+    Gen*akt=wsk;
+    Gen*tmp=wsk;
     while(akt)
     {
         tmp=akt;
         akt=akt->nastepny_;
-        //tmp->~Gen();
         delete tmp;
     }
+    cout<<"osobnik usuniety \n";
 
 }
 

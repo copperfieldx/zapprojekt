@@ -7,6 +7,10 @@ Dane::Dane()
 {    
 }
 
+Dane::~Dane()
+{
+}
+
 void Dane::wczytajDane()
 {
     fstream wejscie;

@@ -8,9 +8,11 @@ class Gen
 public:
     Gen();
     ~Gen();
-    Gen* tworz(int dlugosc);
+    Gen* tworz(int);
     void wyswietl();
-    void usunListe();
+    friend void usunListe(Gen *);
+    friend int binToDec(Gen *, int);
 };
+
 
 #endif // GEN_H

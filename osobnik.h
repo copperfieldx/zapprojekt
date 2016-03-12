@@ -11,9 +11,14 @@ class Osobnik
 public:
     Osobnik();
     ~Osobnik();
-    Osobnik* tworzPopulacje(int ile_genow, int jaka_dlugosc);
     void wyswietlPopulacje();
-    void usunPopulacje();
+    friend Osobnik* tworzPopulacje(int ile_osobnikow, int jaka_dlugosc);
+    friend void usunPopulacje(Osobnik *wsk);
+    friend Gen* tworz(int dlugosc);
+    friend float dekoduj(Osobnik *, int , int , int );
+
 };
+
+Osobnik* tworzPopulacje(int ile_osobnikow, int jaka_dlugosc);
 
 #endif // OSOBNIK_H
