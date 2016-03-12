@@ -11,6 +11,31 @@ Dane::~Dane()
 {
 }
 
+int Dane::Poczatek()
+{
+    return poczatek_przedzialu_;
+}
+
+int Dane::Koniec()
+{
+    return koniec_przedzialu_;
+}
+
+int Dane::LOsobnikow()
+{
+    return liczba_osobnikow_;
+}
+
+int Dane::LBitow()
+{
+    return liczba_bitow_;
+}
+
+int Dane::LPokolen()
+{
+    return liczba_pokolen_;
+}
+
 void Dane::wczytajDane()
 {
     fstream wejscie;

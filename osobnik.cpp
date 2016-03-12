@@ -15,6 +15,17 @@ Osobnik::~Osobnik()
 {
 }
 
+
+Gen* Osobnik::zwrocGenotyp()
+{
+return gen_;
+}
+
+Osobnik* Osobnik::adresNastepnego()
+{
+    return nastepny_osobnik_;
+}
+
 /*Osobnik::~Osobnik()
 {
     this->gen_->usunListe();
@@ -77,4 +88,15 @@ Osobnik* tworzPopulacje(int ile_osobnikow, int jaka_dlugosc)
     }
 
     return pl;
+}
+
+void krzyzuj(Osobnik *wsk1, Osobnik *wsk2, int pPodz)
+{
+    for(int i=0;i<pPodz;i++)
+    {
+        zamien(wsk1->gen_,wsk2->gen_);
+        wsk1=wsk1->nastepny_osobnik_;
+        wsk2=wsk2->nastepny_osobnik_;
+    }
+
 }

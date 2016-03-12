@@ -12,6 +12,11 @@ class Dane
 public:
     Dane();
     ~Dane();
+    int Poczatek();
+    int Koniec();
+    int LBitow();
+    int LOsobnikow();
+    int LPokolen();
     void wczytajDane();
     void drukujDane();
 

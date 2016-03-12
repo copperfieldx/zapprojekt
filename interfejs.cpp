@@ -13,17 +13,10 @@ void start()
     srand(time(NULL));
     Dane *wejscie=new Dane;
     wejscie->wczytajDane();
-    //wejscie->drukujDane();
-    Osobnik* populacja=new Osobnik;
-    populacja=tworzPopulacje(8,5);  //jako argument funkcji daj obiekt DANE!!!!!!
-    populacja->wyswietlPopulacje();
-    cout<<dekoduj(populacja,0,5,5);
-    usunPopulacje(populacja);
-    delete populacja;
-    populacja->wyswietlPopulacje();
+    //wejscie->drukujDane(); //test dzialania
+    operujNaDanych(wejscie); //zasadnicza czesc programu
     delete wejscie;
-    wejscie->drukujDane();
+   // wejscie->drukujDane();
 }\
-
 
 //napisz nowa funkcje z argumentem Dane *wejscie i tam operuj na podanych w pliku!!!!

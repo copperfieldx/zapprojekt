@@ -15,6 +15,16 @@ Gen::~Gen()
 {
 }
 
+bool Gen::zwrocWartosc()
+{
+    return wartosc_;
+}
+
+Gen* Gen::zwrocAdresNastepnego()
+{
+    return nastepny_;
+}
+
 /*Gen::~Gen()
 {
     delete nastepny_;
@@ -89,3 +99,10 @@ Gen::~Gen()
 {
     delete this;
 }*/
+void zamien(Gen* wsk1, Gen* wsk2)
+{
+    bool x;
+    x=wsk1->wartosc_;
+    wsk1->wartosc_=wsk2->wartosc_;
+    wsk2->wartosc_=x;
+}
