@@ -15,8 +15,8 @@ public:
     void wyswietl();
     friend void usunListe(Gen *);
     friend int binToDec(Gen *, int);
-    friend void krzyzuj(Osobnik*, Osobnik*, int);
-    friend void zamien(Gen*, Gen*);
+    //friend void krzyzuj(Osobnik*, Osobnik*, int);
+    //friend void zamien(Gen*, Gen*);
 };
 
 

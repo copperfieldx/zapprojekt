@@ -1,4 +1,3 @@
-#include "gen.h"
 #include<cmath>
 #include<ctime>
 #include<cstdlib>
@@ -99,10 +98,11 @@ Gen::~Gen()
 {
     delete this;
 }*/
-void zamien(Gen* wsk1, Gen* wsk2)
+
+/*void zamien(Gen* wsk1, Gen* wsk2)
 {
     bool x;
     x=wsk1->wartosc_;
     wsk1->wartosc_=wsk2->wartosc_;
     wsk2->wartosc_=x;
-}
+}*/

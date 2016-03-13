@@ -1,5 +1,4 @@
 #include"algorytmy.h"
-#include"gen.h"
 #include <cmath>
 #include<iostream>
 using namespace std; //do testow
@@ -7,7 +6,7 @@ using namespace std; //do testow
 
 void operujNaDanych(Dane* wejscie)
 {
-    Osobnik* populacja=new Osobnik;
+    Osobnik* populacja=new Osobnik(wejscie->LBitow());
     populacja=tworzPopulacje(wejscie->LOsobnikow(),wejscie->LBitow());  //jako argument funkcji daj obiekt DANE!!!!!!
     populacja->wyswietlPopulacje();
     cout<<dekoduj(populacja,0,5,5);  //testy dzialania
@@ -23,15 +22,16 @@ void operujNaDanych(Dane* wejscie)
 
 
 
-int binToDec(Gen *genotyp, int liczba_bitow)
+int binToDec(bool *genotyp, int liczba_bitow)
 {
     int wynik=0;
     int potegadwojki=pow(2,liczba_bitow-1);
-    Gen *akt=genotyp;
+   // bool *akt=genotyp;
     for(int i=0;i<liczba_bitow;i++)
     {
-        wynik=wynik+akt->wartosc_*potegadwojki;
-        akt=akt->nastepny_;
+        wynik=wynik+genotyp[i]*potegadwojki;
+       // wynik=wynik+akt->wartosc_*potegadwojki;
+       // akt=akt->nastepny_;
         potegadwojki/=2;
     }
     cout<<wynik<<" ";
@@ -42,7 +42,7 @@ int binToDec(Gen *genotyp, int liczba_bitow)
 double dekoduj(Osobnik *os1, int poczatek_przedzialu, int koniec_przedzialu, int liczba_bitow )
 {
     double rozdzielczosc=1.0*(koniec_przedzialu-poczatek_przedzialu)/(pow(2,liczba_bitow)-1);
-    double wynik=poczatek_przedzialu+binToDec(os1->gen_, liczba_bitow)*rozdzielczosc;
+    double wynik=poczatek_przedzialu+binToDec(os1->genotyp_, liczba_bitow)*rozdzielczosc;
     return wynik;
 
 }
@@ -56,4 +56,11 @@ double f1(double x)
 {
     double y=7*pow(x,6)-4*pow(x,4)+3.5*pow(x,3)-24*pow(x,2)+14/(pow(x,2)+1);
     return y;
+}
+
+void zamien(bool &x1, bool &x2)
+{
+    bool y=x1;
+    x1=x2;
+    x2=y;
 }

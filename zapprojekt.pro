@@ -7,13 +7,11 @@ SOURCES += main.cpp \
     interfejs.cpp \
     algorytmy.cpp \
     dane.cpp \
-    osobnik.cpp \
-    gen.cpp
+    osobnik.cpp
 
 HEADERS += \
     interfejs.h \
     algorytmy.h \
     dane.h \
-    osobnik.h \
-    gen.h
+    osobnik.h
 

@@ -2,7 +2,6 @@
 #include "algorytmy.h"
 #include "dane.h"
 #include "osobnik.h"
-#include "gen.h"
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
