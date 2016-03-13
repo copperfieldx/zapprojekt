@@ -9,6 +9,5 @@ int main()
     start();
 }
 
-//delete w destruktorze osobnik i gen sie pierdolą!!!!!!!!!!!!
-//z jakiegos powodu destruktory chuja usuwają
+//sprawdz na koniec dzialanie destruktorow Dane i Osobnik, bo moga nie dzialac;
 
