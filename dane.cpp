@@ -7,9 +7,9 @@ Dane::Dane()
 {    
 }
 
-Dane::~Dane()
+/*Dane::~Dane()
 {
-}
+}*/
 
 int Dane::Poczatek()
 {

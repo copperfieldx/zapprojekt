@@ -8,6 +8,7 @@ int binToDec(bool *, int );
 double dekoduj(Osobnik *, int , int , int );
 double f1(double); //funkcja celu, f1- w domyśle do dodania następne; funkcja CIĄGŁA!(przynajmniej narazie)
 void zamien(bool &, bool &);
+void cykl(Osobnik*, Dane*);
 
 
 #endif // ALGORYTMY_H

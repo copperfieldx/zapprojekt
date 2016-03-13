@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    start();
+   start();
 }
 
 //sprawdz na koniec dzialanie destruktorow Dane i Osobnik, bo moga nie dzialac;

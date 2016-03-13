@@ -15,6 +15,6 @@ void start()
     //wejscie->drukujDane(); //test dzialania
     operujNaDanych(wejscie); //zasadnicza czesc programu
     delete wejscie;
-   // wejscie->drukujDane();
+    //wejscie->drukujDane();
 }\
 

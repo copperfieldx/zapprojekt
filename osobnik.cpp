@@ -1,5 +1,6 @@
 #include "osobnik.h"
 #include "algorytmy.h"
+#include "dane.h"
 #include<cstdlib>
 #include<ctime>
 #include<iostream>
@@ -11,6 +12,7 @@ Osobnik::Osobnik(int x)
     genotyp_=new bool[x];
     //zdekodowany_=0; //dodane potem, zalezne od dlugosci przedzialu!
     nastepny_osobnik_=NULL;
+    przystosowanie_=0; //musi być edytowane potem, bo zależne od m.in. od dlugosci przedzialu
 }
 
 Osobnik::~Osobnik()
@@ -29,6 +31,10 @@ Osobnik* Osobnik::adresNastepnego()
     return nastepny_osobnik_;
 }
 
+double Osobnik::zwrocPrzystosowanie()
+{
+    return przystosowanie_;
+}
 
 void Osobnik::wyswietlPopulacje()
 {
@@ -39,8 +45,7 @@ void Osobnik::wyswietlPopulacje()
         {
             cout<<akt->genotyp_[i];
         }
-        double a=dekoduj(akt,0,5,8);
-        cout<<" "<<a<<" "<<f1(a)<<endl; //do testow
+        cout<<" "<<akt->zwrocPrzystosowanie()<<endl; //do testow
         akt=akt->nastepny_osobnik_;
     }
     cout<<endl;
@@ -61,6 +66,11 @@ void Osobnik::mutuj()
     genotyp_[x]=!genotyp_[x];
 }
 
+void Osobnik::ustalPrzystosowanie(double wartosc)
+{
+    przystosowanie_=wartosc;
+}
+
 void usunPopulacje(Osobnik *wsk)
 {
     Osobnik *akt=wsk;
@@ -77,17 +87,18 @@ void usunPopulacje(Osobnik *wsk)
 }
 
 
-Osobnik* tworzPopulacje(int ile_osobnikow, int jaka_dlugosc)
+Osobnik* tworzPopulacje(Dane* wejscie)
 {
 
-    Osobnik *akt=new Osobnik(jaka_dlugosc);
+    Osobnik *akt=new Osobnik(wejscie->LBitow());
     Osobnik *pl=akt;
     Osobnik *tmp=NULL;
-    for(int i=0;i<ile_osobnikow;i++)
+    for(int i=0;i<wejscie->LOsobnikow();i++)
     {
         if(i==0)tmp=pl;
-        else tmp=new Osobnik(jaka_dlugosc);
+        else tmp=new Osobnik(wejscie->LBitow());
         tmp->losuj();
+        tmp->przystosowanie_=f1(dekoduj(tmp,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
         akt->nastepny_osobnik_=tmp;
         akt=akt->nastepny_osobnik_;
     }
@@ -95,15 +106,76 @@ Osobnik* tworzPopulacje(int ile_osobnikow, int jaka_dlugosc)
     return pl;
 }
 
-
-
-void krzyzuj(Osobnik *wsk1, Osobnik *wsk2, int pPodz)
+void tworzKolejna(Osobnik* stara, Dane* wejscie)
 {
-    for(int i=0;i<pPodz;i++)
+    Osobnik *akt=stara;
+    for(int i=0;i<wejscie->LOsobnikow()/2;i++)//polowa osobnikow najlepiej rpzysotoswanych zostaje
     {
-        zamien(wsk1->genotyp_[i],wsk2->genotyp_[i]);
+        akt=akt->adresNastepnego();
+    }
+    Osobnik *pom1=NULL;
+    Osobnik *pom2=NULL;
+
+    for(int i=wejscie->LOsobnikow()/2;i<wejscie->LOsobnikow();i++)//druga polowa jest potomkami
+    {
+        pom1=stara;
+        pom2=stara;
+        int x=rand()%(wejscie->LOsobnikow()/2);
+        int y=rand()%(wejscie->LOsobnikow()/2);
+        for(int i=0;i<x;i++)
+        {
+            pom1=pom1->adresNastepnego();   //mozna dopisac funkcje zwroc adres i-tego elementu!
+        }
+        for(int i=0;i<y;i++)
+        {
+            pom2=pom2->adresNastepnego();
+        }
+        krzyzuj(pom1,pom2,akt);
+        akt=akt->adresNastepnego();
+    }
+    int prawdmut=0;
+    akt=stara;
+    for(int i=0;i<wejscie->LOsobnikow();i++)
+    {
+        prawdmut=rand()%10;
+        if(prawdmut>8)//przypadek 1/10, prawdopodobienstwo 10%;
+        {
+            akt->mutuj();
+        }
+        akt->przystosowanie_=f1(dekoduj(akt,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        akt=akt->adresNastepnego();
     }
 
 }
 
 
+void krzyzuj(Osobnik *wsk1, Osobnik *wsk2, Osobnik *docelowy)
+{
+    for(int i=0;i<wsk1->rozmiar_/2;i++)
+    {
+        docelowy->genotyp_[i]=wsk1->genotyp_[i];
+    }
+    for(int i=wsk1->rozmiar_/2;i<wsk1->rozmiar_;i++)
+    {
+        docelowy->genotyp_[i]=wsk2->genotyp_[i];
+    }
+
+}
+
+void Osobnik::sortuj(int Losobnikow)
+{
+    double temp=0;
+    bool *temp2;
+    for(int i = 0; i<Losobnikow; i++)
+           for (Osobnik * p = this; p->nastepny_osobnik_; p = p->nastepny_osobnik_)
+               if(p->przystosowanie_ > p->nastepny_osobnik_->przystosowanie_)
+               {
+                   temp = p->przystosowanie_;
+                   p->przystosowanie_ = p->nastepny_osobnik_->przystosowanie_;
+                   p->nastepny_osobnik_->przystosowanie_ = temp;
+
+                   temp2=p->genotyp_;
+                   p->genotyp_=p->nastepny_osobnik_->genotyp_;
+                   p->nastepny_osobnik_->genotyp_=temp2;
+               }
+}

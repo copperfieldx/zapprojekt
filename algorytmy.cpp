@@ -7,17 +7,38 @@ using namespace std; //do testow
 void operujNaDanych(Dane* wejscie)
 {
     Osobnik* populacja=new Osobnik(wejscie->LBitow());
-    populacja=tworzPopulacje(wejscie->LOsobnikow(),wejscie->LBitow());  //jako argument funkcji daj obiekt DANE!!!!!!
+    populacja=tworzPopulacje(wejscie);  //jako argument funkcji daj obiekt DANE!!!!!!
     populacja->wyswietlPopulacje();
-    cout<<dekoduj(populacja,0,5,5);  //testy dzialania
-    cout<<f1(-1.20496)<<"\n\n";
-    krzyzuj(populacja,populacja->adresNastepnego(),5);//rowniez test
+    populacja->sortuj(wejscie->LOsobnikow());
     populacja->wyswietlPopulacje();
-    populacja->mutuj();
+    cykl(populacja,wejscie);
     populacja->wyswietlPopulacje();
+    //populacja->sortuj(wejscie->LOsobnikow());
+    //populacja->wyswietlPopulacje();
+   // populacja->cykl(wejscie);
+    //cout<<dekoduj(populacja,0,5,5);  //testy dzialania
+   // cout<<f1(-1.20496)<<"\n\n";
+    //krzyzuj(populacja,populacja->adresNastepnego(),5);//rowniez test
+   // populacja->wyswietlPopulacje();
+   // populacja->mutuj();
+   // populacja->wyswietlPopulacje();
     usunPopulacje(populacja);
     delete populacja;
-    populacja->wyswietlPopulacje();
+   // populacja->wyswietlPopulacje();
+}
+
+void cykl(Osobnik* populacja, Dane* wejscie) //narazie zamysl funkcji
+{
+    for(int i=0;i<wejscie->LPokolen();i++)
+    {
+    //Osobnik *tmp=populacja;
+    tworzKolejna(populacja, wejscie);
+    populacja->sortuj(wejscie->LOsobnikow());
+    populacja->wyswietlPopulacje(); //do sledzenia na biezaco
+    }
+
+  //  delete tmp;
+
 }
 
 
@@ -36,7 +57,7 @@ int binToDec(bool *genotyp, int liczba_bitow)
        // akt=akt->nastepny_;
         potegadwojki/=2;
     }
-    cout<<" "<<wynik<<" ";
+//    cout<<" "<<wynik<<" ";
 
     return wynik;
 }

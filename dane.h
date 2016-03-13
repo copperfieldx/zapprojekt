@@ -1,4 +1,4 @@
-#ifndef DANE_H
+    #ifndef DANE_H
 #define DANE_H
 
 class Dane
@@ -11,7 +11,7 @@ class Dane
 
 public:
     Dane();
-    ~Dane();
+    //~Dane();
     int Poczatek();
     int Koniec();
     int LBitow();
