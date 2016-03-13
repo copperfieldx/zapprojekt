@@ -12,6 +12,7 @@ class Dane
 public:
     Dane();
     //~Dane();
+    //5 funkcji zwracajacych odpowiednie pola dla funkcji innych niz metody i f. zaprzyjaznione; czy są konieczne? POMYSL
     int Poczatek();
     int Koniec();
     int LBitow();

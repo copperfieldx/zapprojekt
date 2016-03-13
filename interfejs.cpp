@@ -7,6 +7,7 @@
 #include <iostream>
 using namespace std; //do prototypu, potem usunac
 
+//funkcja ustawiona w mainie(), jedna z nadrzednych;
 void start()
 {
     srand(time(NULL));

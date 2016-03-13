@@ -1,9 +1,11 @@
 #include"algorytmy.h"
 #include <cmath>
-#include<iostream>
-using namespace std; //do testow
+//#include<iostream>
+//using namespace std; //do testow
 
 
+
+//zasadnicza czesc programu; dziala po wczytaniu danych i jest odpowiedzialna za caly przebieg
 void operujNaDanych(Dane* wejscie)
 {
     Osobnik* populacja=new Osobnik(wejscie->LBitow());
@@ -13,6 +15,7 @@ void operujNaDanych(Dane* wejscie)
     populacja->wyswietlPopulacje();
     cykl(populacja,wejscie);
     populacja->wyswietlPopulacje();
+    //TESTY-TESTY!!!
     //populacja->sortuj(wejscie->LOsobnikow());
     //populacja->wyswietlPopulacje();
    // populacja->cykl(wejscie);
@@ -27,6 +30,8 @@ void operujNaDanych(Dane* wejscie)
    // populacja->wyswietlPopulacje();
 }
 
+
+//majac populacje poczatkowa, funkcja ta przeprowadza tworzenie nowych pokolen
 void cykl(Osobnik* populacja, Dane* wejscie) //narazie zamysl funkcji
 {
     for(int i=0;i<wejscie->LPokolen();i++)
@@ -42,9 +47,7 @@ void cykl(Osobnik* populacja, Dane* wejscie) //narazie zamysl funkcji
 }
 
 
-
-
-
+//przeksztalca liczbe z systemu binarnego na dziesietny;
 int binToDec(bool *genotyp, int liczba_bitow)
 {
     int wynik=0;
@@ -62,6 +65,7 @@ int binToDec(bool *genotyp, int liczba_bitow)
     return wynik;
 }
 
+//dekoduje liczbe reprezentowana przez Osobnika na liczbe(punkt) w przedziale w ktorym szukamy minimum
 double dekoduj(Osobnik *os1, int poczatek_przedzialu, int koniec_przedzialu, int liczba_bitow )
 {
     double rozdzielczosc=1.0*(koniec_przedzialu-poczatek_przedzialu)/(pow(2,liczba_bitow)-1);
@@ -80,6 +84,7 @@ double f1(double x)
     return y;
 }
 
+//zamienia wartosciami dwie zmienne boolowskie
 void zamien(bool &x1, bool &x2)
 {
     bool y=x1;

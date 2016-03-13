@@ -36,6 +36,9 @@ int Dane::LPokolen()
     return liczba_pokolen_;
 }
 
+
+//wczytuje dane; dodaj odporność na idiotów - podanie konca przedzialu mniejszego od poczatku, podanie liczb ujemnch;
+//skoro 3 pola nie moga byc ujemne to moze jakis typ unsigned? - POSZUKAJ
 void Dane::wczytajDane()
 {
     fstream wejscie;
@@ -56,7 +59,7 @@ void Dane::wczytajDane()
 
 }
 
-
+//jak sama nazwa mowi; stworzona glownie do testow czy wczytanie z pliku dziala jak nalezy;
 void Dane::drukujDane()
 {
     cout<<"poczatek przedzialu "<<poczatek_przedzialu_<<endl;
