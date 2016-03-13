@@ -10,8 +10,10 @@ void operujNaDanych(Dane* wejscie)
     populacja=tworzPopulacje(wejscie->LOsobnikow(),wejscie->LBitow());  //jako argument funkcji daj obiekt DANE!!!!!!
     populacja->wyswietlPopulacje();
     cout<<dekoduj(populacja,0,5,5);  //testy dzialania
-    cout<<f1(-1.20496);
+    cout<<f1(-1.20496)<<"\n\n";
     krzyzuj(populacja,populacja->adresNastepnego(),5);//rowniez test
+    populacja->wyswietlPopulacje();
+    populacja->mutuj();
     populacja->wyswietlPopulacje();
     usunPopulacje(populacja);
     delete populacja;
@@ -34,7 +36,7 @@ int binToDec(bool *genotyp, int liczba_bitow)
        // akt=akt->nastepny_;
         potegadwojki/=2;
     }
-    cout<<wynik<<" ";
+    cout<<" "<<wynik<<" ";
 
     return wynik;
 }
@@ -44,7 +46,6 @@ double dekoduj(Osobnik *os1, int poczatek_przedzialu, int koniec_przedzialu, int
     double rozdzielczosc=1.0*(koniec_przedzialu-poczatek_przedzialu)/(pow(2,liczba_bitow)-1);
     double wynik=poczatek_przedzialu+binToDec(os1->genotyp_, liczba_bitow)*rozdzielczosc;
     return wynik;
-
 }
 
 

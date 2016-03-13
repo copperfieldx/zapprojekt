@@ -10,4 +10,6 @@ int main()
 }
 
 //sprawdz na koniec dzialanie destruktorow Dane i Osobnik, bo moga nie dzialac;
+//wiekszosc COUT-ow ma za zadanie sprawdzac jedynie poprawnosc programu
+//nalezy je pozniej USUNAC!!!!
 

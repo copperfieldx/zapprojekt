@@ -9,6 +9,7 @@ Osobnik::Osobnik(int x)
 {
     rozmiar_=x;
     genotyp_=new bool[x];
+    //zdekodowany_=0; //dodane potem, zalezne od dlugosci przedzialu!
     nastepny_osobnik_=NULL;
 }
 
@@ -28,24 +29,7 @@ Osobnik* Osobnik::adresNastepnego()
     return nastepny_osobnik_;
 }
 
-/*Osobnik::~Osobnik()
-{
-    this->gen_->usunListe();
-    cout<<"osobnik usuniety \n";
-    //delete nastepny_osobnik_;
-    /*Osobnik *akt=this;
-    Osobnik *tmp=this;
-    while(akt)
-    {
-        tmp=akt;
-        akt=akt->nastepny_osobnik_;
-        tmp->gen.usunListe();
-        //usunListe(tmp->gen);
-        delete tmp;
 
-    }
-    cout<<"osobnik usuniety /n";
-}*/
 void Osobnik::wyswietlPopulacje()
 {
     Osobnik *akt=this;
@@ -55,9 +39,11 @@ void Osobnik::wyswietlPopulacje()
         {
             cout<<akt->genotyp_[i];
         }
-        cout<<endl;
+        double a=dekoduj(akt,0,5,8);
+        cout<<" "<<a<<" "<<f1(a)<<endl; //do testow
         akt=akt->nastepny_osobnik_;
     }
+    cout<<endl;
 
 }
 
@@ -69,6 +55,12 @@ void Osobnik::losuj()
     }
 }
 
+void Osobnik::mutuj()
+{
+    int x=rand()%8;
+    genotyp_[x]=!genotyp_[x];
+}
+
 void usunPopulacje(Osobnik *wsk)
 {
     Osobnik *akt=wsk;
@@ -77,9 +69,8 @@ void usunPopulacje(Osobnik *wsk)
     {
         tmp=akt;
         akt=akt->nastepny_osobnik_;
-        //tmp->gen.usunListe();
-        //usunListe(tmp->gen);
         delete tmp;
+        cout<<"osobnik usuniety \n";
 
     }
     cout<<"populacja usunieta \n\n";
@@ -111,8 +102,8 @@ void krzyzuj(Osobnik *wsk1, Osobnik *wsk2, int pPodz)
     for(int i=0;i<pPodz;i++)
     {
         zamien(wsk1->genotyp_[i],wsk2->genotyp_[i]);
-        //wsk1=wsk1->nastepny_osobnik_; //bullshit
-        //wsk2=wsk2->nastepny_osobnik_;
     }
 
 }
+
+

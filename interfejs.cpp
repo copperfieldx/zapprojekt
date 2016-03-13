@@ -18,4 +18,3 @@ void start()
    // wejscie->drukujDane();
 }\
 
-//napisz nowa funkcje z argumentem Dane *wejscie i tam operuj na podanych w pliku!!!!
