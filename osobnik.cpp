@@ -161,7 +161,7 @@ void tworzKolejna(Osobnik* stara, Dane* wejscie)
 
 }
 
-//krzyzuje material genetyczny osobnika wsk1 i wsk2 i zapisuje do docelowy;
+//krzyzuje material genetyczny osobnika wsk1 i wsk2 i zapisuje do docelowy; polowa materialu od osobnika pierwszego i polowa od drugiego
 void krzyzuj(Osobnik *wsk1, Osobnik *wsk2, Osobnik *docelowy)
 {
     for(int i=0;i<wsk1->rozmiar_/2;i++)
@@ -175,7 +175,7 @@ void krzyzuj(Osobnik *wsk1, Osobnik *wsk2, Osobnik *docelowy)
 
 }
 
-//sortuje populacje(liste osobnikow) od NAJMNIEJSZEGO do najwiekszego
+//sortuje populacje(liste osobnikow) od NAJMNIEJSZEGO do najwiekszego przystosowania
 void Osobnik::sortuj(int Losobnikow) //narazie dziala poprzez zamiane odpowiednich pol; ZMIEN POTEM NA WSKAZNIKI!
 {
     double temp=0;

@@ -7,7 +7,7 @@
 class Osobnik
 {
 
-    int rozmiar_; //rozmiar bedzie staly dla kadzego osobnika - przemysl, poszukaj jak oszczedzic pamiec
+    int rozmiar_; //rozmiar bedzie staly dla kadzego osobnika - przemysl, poszukaj jak oszczedzic pamiec, ale zmienna moze sie przyspieszyc dzialanie
     bool* genotyp_;
     //double zdekodowany_; //propozycja, moze sie przydac
     Osobnik *nastepny_osobnik_;
