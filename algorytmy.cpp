@@ -1,7 +1,8 @@
 #include"algorytmy.h"
 #include <cmath>
+#include<iostream>
 //#include<iostream>
-//using namespace std; //do testow
+using namespace std; //do testow
 
 
 
@@ -9,55 +10,37 @@
 void operujNaDanych(Dane* wejscie)
 {
     Osobnik* populacja=new Osobnik(wejscie->LBitow());
-    populacja=tworzPopulacje(wejscie);  //jako argument funkcji daj obiekt DANE!!!!!!
+    populacja=tworzPopulacje(wejscie);
     populacja->wyswietlPopulacje();
     populacja->sortuj(wejscie->LOsobnikow());
     populacja->wyswietlPopulacje();
     cykl(populacja,wejscie);
-    populacja->wyswietlPopulacje();
-    //TESTY-TESTY!!!
-    //populacja->sortuj(wejscie->LOsobnikow());
     //populacja->wyswietlPopulacje();
-   // populacja->cykl(wejscie);
-    //cout<<dekoduj(populacja,0,5,5);  //testy dzialania
-   // cout<<f1(-1.20496)<<"\n\n";
-    //krzyzuj(populacja,populacja->adresNastepnego(),5);//rowniez test
-   // populacja->wyswietlPopulacje();
-   // populacja->mutuj();
-   // populacja->wyswietlPopulacje();
-    usunPopulacje(populacja);
     delete populacja;
    // populacja->wyswietlPopulacje();
 }
 
 
 //majac populacje poczatkowa, funkcja ta przeprowadza tworzenie nowych pokolen
-void cykl(Osobnik* populacja, Dane* wejscie) //narazie zamysl funkcji
+void cykl(Osobnik* &populacja, Dane* wejscie)
 {
     for(int i=0;i<wejscie->LPokolen();i++)
     {
-    //Osobnik *tmp=populacja;
-    tworzKolejna(populacja, wejscie);
+    tworzKolejnaPopulacjeVol2(populacja,wejscie); //metoda rankingu liniowego
+   // tworzKolejna(populacja, wejscie); //ułomna metoda nr1
     populacja->sortuj(wejscie->LOsobnikow());
     populacja->wyswietlPopulacje(); //do sledzenia na biezaco
     }
-
-  //  delete tmp;
-
 }
-
 
 //przeksztalca liczbe z systemu binarnego na dziesietny;
 int binToDec(bool *genotyp, int liczba_bitow)
 {
     int wynik=0;
     int potegadwojki=pow(2,liczba_bitow-1);
-   // bool *akt=genotyp;
     for(int i=0;i<liczba_bitow;i++)
     {
         wynik=wynik+genotyp[i]*potegadwojki;
-       // wynik=wynik+akt->wartosc_*potegadwojki;
-       // akt=akt->nastepny_;
         potegadwojki/=2;
     }
 //    cout<<" "<<wynik<<" ";
@@ -84,7 +67,14 @@ double f1(double x)
     return y;
 }
 
-//zamienia wartosciami dwie zmienne boolowskie
+//prosta funkcja - do testow;
+double f2(double x)
+{
+    double y=pow(x,2)-6*x+5;
+    return y;
+}
+
+//zamienia wartosciami dwie zmienne boolowskie - do operacji krzyzowania(?)
 void zamien(bool &x1, bool &x2)
 {
     bool y=x1;

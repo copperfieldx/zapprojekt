@@ -16,7 +16,7 @@ Osobnik::Osobnik(int x)
     przystosowanie_=0; //musi być edytowane potem, bo zależne od m.in. od dlugosci przedzialu
 }
 
-//destruktor - poszukaj jeszcze czy napewno dobrze stworzony
+//destruktor(?)
 Osobnik::~Osobnik()
 {
     delete []genotyp_;
@@ -66,9 +66,9 @@ void Osobnik::losuj()
 }
 
 //mutacja, neguje losowy bit z Osobnika; funkcja odpalana w funkcji nadrzednej z okreslonym prawdopodobienstwem.
-void Osobnik::mutuj()
+void Osobnik::mutuj(int y)
 {
-    int x=rand()%8;
+    int x=rand()%y;
     genotyp_[x]=!genotyp_[x];
 }
 
@@ -95,6 +95,16 @@ void usunPopulacje(Osobnik *wsk)
 }
 
 
+Osobnik* Osobnik::zwrocAdresITegoElementu(int x)
+{
+    Osobnik* tmp=this;
+    for(int i=1;i<x;i++)
+    {
+        tmp=tmp->adresNastepnego();
+    }
+    return tmp;
+}
+
 
 //tworzy PIERWSZA populacje, wykorzystuje losowanie genotypu;
 Osobnik* tworzPopulacje(Dane* wejscie)
@@ -116,6 +126,95 @@ Osobnik* tworzPopulacje(Dane* wejscie)
     return pl;
 }
 
+//ułomna metoda rankingowa
+void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
+{
+
+    int LOsobnikow=wejscie->LOsobnikow();
+    int sumaPrzystosowan=((1+LOsobnikow)/2)*LOsobnikow; //(1+n)/2*n - suma ciagu liczb od 1 do n;
+    int* tablicaPrzystosowan=new int[LOsobnikow];
+    int x=0;
+    for(int i=0;i<LOsobnikow;i++)
+    {
+        x=x+i+1; //1, 1+2, (1+2)+3, etc.
+        tablicaPrzystosowan[i]=x; //zawiera "przedzialy"
+    }
+    Osobnik *akt=new Osobnik(wejscie->LBitow());
+    Osobnik *tmp=akt;
+    Osobnik *pom1=NULL;
+    Osobnik *pom2=NULL;
+
+
+    for(int i=0;i<LOsobnikow;i++)
+    {
+        int los1=rand()%sumaPrzystosowan+1;
+        pom1=stara;
+        pom2=stara;
+
+        for(int j=1;j<LOsobnikow-1;j++)
+        {
+            if(los1==1)
+            {
+                pom1=stara->zwrocAdresITegoElementu(1);
+                break;
+            }
+            if(los1>tablicaPrzystosowan[j] && los1<=tablicaPrzystosowan[j+1])
+            {
+              pom1=stara->zwrocAdresITegoElementu(j+2);
+                 break;
+            }
+        }
+
+       do
+       {
+        int los2=rand()%sumaPrzystosowan+1;
+        for(int j=1;j<LOsobnikow-1;j++)
+        {
+            if(los2==1)
+            {
+                pom2=stara->zwrocAdresITegoElementu(1);
+                break;
+            }
+            if(los2>tablicaPrzystosowan[j] && los2<=tablicaPrzystosowan[j+1])
+            {
+               pom2=stara->zwrocAdresITegoElementu(j+2);
+                break;
+            }
+        }
+       }
+      while(pom1==pom2); //zabezpieczenie, zeby nie losowal tych samych
+
+        krzyzuj(pom1,pom2,akt);
+        //akt->przystosowanie_=f1(dekoduj(akt,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        if(i+1<LOsobnikow)
+        {
+        akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
+        akt=akt->adresNastepnego();
+        }
+
+    }
+
+    //mutacja skopiowana
+    int prawdmut=0;
+    akt=tmp;
+    for(int i=0;i<LOsobnikow;i++)
+    {
+        prawdmut=rand()%10;
+        if(prawdmut>8)//przypadek 1/10, prawdopodobienstwo 10%; do przemyslenia
+        {
+            akt->mutuj(wejscie->LBitow());
+        }
+        //!!!!
+        akt->przystosowanie_=f1(dekoduj(akt,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        akt=akt->nastepny_osobnik_;
+    }
+
+
+
+    delete []tablicaPrzystosowan;
+    stara->~Osobnik(); //hmm?
+    stara=tmp;
+}
 
 //ulomna wersja tworzenia nowej populacji na podstawie poprzedniej - nalezy napisac nowa z metoda rankingowa/turniejow/kola ruletki/jakakolwiek
 void tworzKolejna(Osobnik* stara, Dane* wejscie)
@@ -153,7 +252,7 @@ void tworzKolejna(Osobnik* stara, Dane* wejscie)
         prawdmut=rand()%10;
         if(prawdmut>8)//przypadek 1/10, prawdopodobienstwo 10%; do przemyslenia
         {
-            akt->mutuj();
+            akt->mutuj(wejscie->LBitow());
         }
         akt->przystosowanie_=f1(dekoduj(akt,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
         akt=akt->nastepny_osobnik_;
@@ -182,7 +281,7 @@ void Osobnik::sortuj(int Losobnikow) //narazie dziala poprzez zamiane odpowiedni
     bool *temp2;
     for(int i = 0; i<Losobnikow; i++)
            for (Osobnik * p = this; p->nastepny_osobnik_; p = p->nastepny_osobnik_)
-               if(p->przystosowanie_ > p->nastepny_osobnik_->przystosowanie_)
+               if(p->przystosowanie_ < p->nastepny_osobnik_->przystosowanie_) //!!!!!!!!!
                {
                    temp = p->przystosowanie_;
                    p->przystosowanie_ = p->nastepny_osobnik_->przystosowanie_;

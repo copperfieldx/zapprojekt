@@ -21,11 +21,14 @@ public:
     double zwrocPrzystosowanie();
     void wyswietlPopulacje();
     void losuj();
-    void mutuj();
+    void mutuj(int);
     void ustalPrzystosowanie(double);
     void sortuj(int);
+    Osobnik* zwrocAdresITegoElementu(int);
+    //friend Osobnik* zwrocAdresITegoElementu(Osobnik*, int);
     friend Osobnik* tworzPopulacje(Dane *);
     friend void tworzKolejna(Osobnik*, Dane *);
+    friend void tworzKolejnaPopulacjeVol2(Osobnik*&, Dane*);
     friend void usunPopulacje(Osobnik *wsk);
     friend double dekoduj(Osobnik *, int , int , int );
     friend void krzyzuj(Osobnik *, Osobnik *, Osobnik *);
@@ -33,8 +36,10 @@ public:
 };
 
 //poszukaj czy to jest konieczne; bez tego prosi o deklaracje
+//Osobnik* zwrocAdresITegoElementu(Osobnik*, int);
 Osobnik* tworzPopulacje(Dane *);
 void tworzKolejna(Osobnik *, Dane*); // do cyklu
+void tworzKolejnaPopulacjeVol2(Osobnik *&, Dane *);
 void krzyzuj(Osobnik *, Osobnik *, Osobnik*);
 
 #endif // OSOBNIK_H

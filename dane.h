@@ -18,7 +18,7 @@ public:
     int LBitow();
     int LOsobnikow();
     int LPokolen();
-    void wczytajDane();
+    bool wczytajDane();
     void drukujDane();
 
 };
