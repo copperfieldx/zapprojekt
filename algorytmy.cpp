@@ -29,10 +29,9 @@ void cykl(Osobnik* &populacja, Dane* wejscie)
     int suma=sumaPrzystosowan(wejscie->LOsobnikow());
     int *tablica=tablicaPrzystosowan(wejscie->LOsobnikow());
 
-
     for(int i=0;i<wejscie->LPokolen();i++)
     {
-    tworzKolejnaPopulacjeVol2(populacja,wejscie,suma,tablica); //metoda rankingu liniowego(ma przedwczesna zbieznosc)
+    tworzKolejnaPopulacjeVol3(populacja,wejscie,suma,tablica); //metoda rankingu liniowego(ma przedwczesna zbieznosc)
    // tworzKolejna(populacja, wejscie); //ułomna metoda nr1
     populacja->sortuj(wejscie->LOsobnikow());
     populacja->wyswietlPopulacje(); //do sledzenia na biezaco
