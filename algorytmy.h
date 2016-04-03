@@ -10,6 +10,8 @@ double g(double);
 double f1(double);
 double f2(double);//funkcja celu, f1- w domyśle do dodania następne; funkcja CIĄGŁA!(przynajmniej narazie) //do przemyślenia
 void zamien(bool &, bool &);
+int sumaPrzystosowan(int);
+int* tablicaPrzystosowan(int);
 void cykl(Osobnik *&, Dane*);
 
 

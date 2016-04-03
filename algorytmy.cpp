@@ -17,16 +17,21 @@ void operujNaDanych(Dane* wejscie)
     cykl(populacja,wejscie); // !! tutaj się dzieje !!
     //populacja->wyswietlPopulacje();
     usunPopulacje2(*& populacja);
-    populacja->wyswietlPopulacje();
+    //populacja->wyswietlPopulacje();
 }
 
 
 //majac populacje poczatkowa, funkcja ta przeprowadza tworzenie nowych pokolen
 void cykl(Osobnik* &populacja, Dane* wejscie)
 {
+    //mniej wywolan
+    int suma=sumaPrzystosowan(wejscie->LOsobnikow());
+    int *tablica=tablicaPrzystosowan(wejscie->LOsobnikow());
+
+
     for(int i=0;i<wejscie->LPokolen();i++)
     {
-    tworzKolejnaPopulacjeVol2(populacja,wejscie); //metoda rankingu liniowego(ma przedwczesna zbieznosc)
+    tworzKolejnaPopulacjeVol2(populacja,wejscie,suma,tablica); //metoda rankingu liniowego(ma przedwczesna zbieznosc)
    // tworzKolejna(populacja, wejscie); //ułomna metoda nr1
     populacja->sortuj(wejscie->LOsobnikow());
     populacja->wyswietlPopulacje(); //do sledzenia na biezaco
@@ -47,6 +52,7 @@ int binToDec(bool *tab_bool, int liczba_bitow) //tablica boolowska i jej rozmiar
 
     return wynik;
 }
+
 
 //dekoduje liczbe reprezentowana przez Osobnika na liczbe(punkt) w przedziale w ktorym szukamy minimum
 double dekoduj(/*Osobnik *os1,*/ bool* tab_bool, int poczatek_przedzialu, int koniec_przedzialu, int liczba_bitow )
@@ -87,4 +93,23 @@ void zamien(bool &x1, bool &x2)
     bool y=x1;
     x1=x2;
     x2=y;
+}
+
+int sumaPrzystosowan(int LOsobnikow)
+{
+    int tmp=((1+LOsobnikow)/2)*LOsobnikow; //(1+n)/2*n - suma ciagu liczb od 1 do n;
+    return tmp;
+}
+
+int* tablicaPrzystosowan(int LOsobnikow)
+{
+
+    int* tmp=new int[LOsobnikow];
+    int x=0;
+    for(int i=0;i<LOsobnikow;i++)
+    {
+        x=x+i+1; //1, 1+2, (1+2)+3, etc.
+        tmp[i]=x; //zawiera "przedzialy"
+    }
+    return tmp;
 }

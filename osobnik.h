@@ -26,8 +26,8 @@ public:
     Osobnik* zwrocAdresITegoElementu(int);
     friend Osobnik* tworzPopulacje(Dane *);
     friend void tworzKolejna(Osobnik*, Dane *);
-    friend void tworzKolejnaPopulacjeVol2(Osobnik*&, Dane*);
-    friend void tworzKolejnaPopulacjeVol3(Osobnik*&, Dane*);
+    friend void tworzKolejnaPopulacjeVol2(Osobnik*&, Dane*, int, int*);
+    friend void tworzKolejnaPopulacjeVol3(Osobnik*&, Dane*, int, int*);
     friend void usunPopulacje(Osobnik *&wsk);
     friend void usunPopulacje2(Osobnik *&wsk);
     //friend double dekoduj(bool *, int , int , int );
@@ -40,8 +40,8 @@ void usunPopulacje(Osobnik *&wsk);
 void usunPopulacje2(Osobnik *&wsk);
 Osobnik* tworzPopulacje(Dane *);
 void tworzKolejna(Osobnik *, Dane*); // do cyklu
-void tworzKolejnaPopulacjeVol2(Osobnik *&, Dane *);
-void tworzKolejnaPopulacjeVol3(Osobnik *&, Dane *);
+void tworzKolejnaPopulacjeVol2(Osobnik *&, Dane *, int, int*);
+void tworzKolejnaPopulacjeVol3(Osobnik *&, Dane *, int, int*);
 void krzyzuj(Osobnik *, Osobnik *, Osobnik*);
 
 #endif // OSOBNIK_H

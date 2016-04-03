@@ -43,7 +43,7 @@ double Osobnik::zwrocPrzystosowanie()
 void Osobnik::wyswietlPopulacje()
 {
     Osobnik *akt=this;
-    while(akt->nastepny_osobnik_)
+    while(akt)
     {
         for(int i=0;i<akt->rozmiar_;i++)
         {
@@ -139,11 +139,12 @@ Osobnik* tworzPopulacje(Dane* wejscie)
 }
 
 //metoda rankingu linowego
-void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
+void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie, int sumaPrzystosowan, int* tablicaPrzystosowan)
 {
 
    //dla met.rankingowej mozna to zrobic raz i sie odwolywac!!
     int LOsobnikow=wejscie->LOsobnikow();
+    /*
     int sumaPrzystosowan=((1+LOsobnikow)/2)*LOsobnikow; //(1+n)/2*n - suma ciagu liczb od 1 do n;
     int* tablicaPrzystosowan=new int[LOsobnikow];
     int x=0;
@@ -151,7 +152,7 @@ void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
     {
         x=x+i+1; //1, 1+2, (1+2)+3, etc.
         tablicaPrzystosowan[i]=x; //zawiera "przedzialy"
-    }
+    }*/
 
 
 
@@ -167,46 +168,52 @@ void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
         pom1=stara;
         pom2=stara;
 
-        for(int j=1;j<LOsobnikow-1;j++)
+        if(los1==1)
         {
-            if(los1==1)
+            pom1=stara->zwrocAdresITegoElementu(1);
+        }
+
+        else
+        for(int j=1;j<LOsobnikow;j++)
+        {
+
+            if(los1>tablicaPrzystosowan[j-1] && los1<=tablicaPrzystosowan[j])
             {
-                pom1=stara->zwrocAdresITegoElementu(1);
-                break;
-            }
-            if(los1>tablicaPrzystosowan[j] && los1<=tablicaPrzystosowan[j+1])
-            {
-              pom1=stara->zwrocAdresITegoElementu(j+2);
+                 pom1=stara->zwrocAdresITegoElementu(j+1);
                  break;
             }
         }
 
+
        do
        {
-        int los2=rand()%sumaPrzystosowan+1;
-        for(int j=1;j<LOsobnikow-1;j++)
-        {
+            int los2=rand()%sumaPrzystosowan+1;
+
             if(los2==1)
             {
                 pom2=stara->zwrocAdresITegoElementu(1);
-                break;
             }
-            if(los2>tablicaPrzystosowan[j] && los2<=tablicaPrzystosowan[j+1])
-            {
-               pom2=stara->zwrocAdresITegoElementu(j+2);
-                break;
-            }
-        }
-       }
-      while(pom1==pom2); //zabezpieczenie, zeby nie losowal tych samych
 
-        krzyzuj(pom1,pom2,akt);
-        //akt->przystosowanie_=f1(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
-        if(i+1<LOsobnikow)
-        {
-        akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
-        akt=akt->adresNastepnego();
-        }
+            else
+            for(int j=1;j<LOsobnikow;j++)
+            {
+
+                if(los2>tablicaPrzystosowan[j-1] && los2<=tablicaPrzystosowan[j])
+                {
+                    pom2=stara->zwrocAdresITegoElementu(j+1);
+                    break;
+                }
+            }
+       }
+       while(pom1==pom2); //zabezpieczenie, zeby nie losowal tych samych
+
+      krzyzuj(pom1,pom2,akt);
+      //akt->przystosowanie_=f1(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+      if(i+1<LOsobnikow)
+      {
+          akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
+          akt=akt->adresNastepnego();
+      }
 
     }
 
@@ -228,16 +235,17 @@ void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
 
 
 
-    delete []tablicaPrzystosowan;
+    //delete []tablicaPrzystosowan;
     usunPopulacje(*&stara); //hmm?
     stara=tmp;
 }
 
-void tworzKolejnaPopulacjeVol3(Osobnik* &stara, Dane* wejscie)
+void tworzKolejnaPopulacjeVol3(Osobnik* &stara, Dane* wejscie, int sumaPrzystosowan, int* tablicaPrzystosowan)
 {
 
    //dla met.rankingowej mozna to zrobic raz i sie odwolywac!!
     int LOsobnikow=wejscie->LOsobnikow();
+    /*
     int sumaPrzystosowan=((1+LOsobnikow)/2)*LOsobnikow; //(1+n)/2*n - suma ciagu liczb od 1 do n;
     int* tablicaPrzystosowan=new int[LOsobnikow];
     int x=0;
@@ -246,7 +254,7 @@ void tworzKolejnaPopulacjeVol3(Osobnik* &stara, Dane* wejscie)
         x=x+i+1; //1, 1+2, (1+2)+3, etc.
         tablicaPrzystosowan[i]=x; //zawiera "przedzialy"
     }
-
+    */
 
 
     Osobnik *akt=new Osobnik(wejscie->LBitow());
@@ -261,50 +269,58 @@ void tworzKolejnaPopulacjeVol3(Osobnik* &stara, Dane* wejscie)
         pom1=stara;
         pom2=stara;
 
-        for(int j=1;j<LOsobnikow-1;j++)
+        if(los1==1)
         {
-            if(los1==1)
+            pom1=stara->zwrocAdresITegoElementu(1);
+        }
+
+        else
+        for(int j=1;j<LOsobnikow;j++)
+        {
+
+            if(los1>tablicaPrzystosowan[j-1] && los1<=tablicaPrzystosowan[j])
             {
-                pom1=stara->zwrocAdresITegoElementu(1);
-                break;
-            }
-            if(los1>tablicaPrzystosowan[j] && los1<=tablicaPrzystosowan[j+1])
-            {
-              pom1=stara->zwrocAdresITegoElementu(j+2);
+                 pom1=stara->zwrocAdresITegoElementu(j+1);
                  break;
             }
         }
 
-       do
-       {
-        int los2=rand()%sumaPrzystosowan+1;
-        for(int j=1;j<LOsobnikow-1;j++)
+        do
         {
+            int los2=rand()%sumaPrzystosowan+1;
+
             if(los2==1)
             {
                 pom2=stara->zwrocAdresITegoElementu(1);
-                break;
             }
-            if(los2>tablicaPrzystosowan[j] && los2<=tablicaPrzystosowan[j+1])
+
+            else
+            for(int j=1;j<LOsobnikow;j++)
             {
-               pom2=stara->zwrocAdresITegoElementu(j+2);
-                break;
+
+                if(los2>tablicaPrzystosowan[j-1] && los2<=tablicaPrzystosowan[j])
+                {
+                     pom2=stara->zwrocAdresITegoElementu(j+1);
+                      break;
+                }
             }
-        }
        }
-      while(pom1==pom2); //zabezpieczenie, zeby nie losowal tych samych
+       while(pom1==pom2);  //zabezpieczenie, zeby nie losowal tych samych
 
-        krzyzuj(pom1,pom2,akt);
-        //akt->przystosowanie_=f1(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
-        if(i+1<LOsobnikow)
-        {
-        akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
-        akt=akt->adresNastepnego();
-        krzyzuj(pom2,pom1,akt);
-        akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
-        akt=akt->adresNastepnego();
+       krzyzuj(pom1,pom2,akt);
+       //akt->przystosowanie_=f1(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+       if(i+1<(LOsobnikow/2+1))
+       {
+            akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
+            akt=akt->adresNastepnego();
+            krzyzuj(pom2,pom1,akt);
+            if(i<(LOsobnikow/2))
+            {
+            akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
+            akt=akt->adresNastepnego();
+            }
 
-        }
+       }
 
 
     }
@@ -327,7 +343,7 @@ void tworzKolejnaPopulacjeVol3(Osobnik* &stara, Dane* wejscie)
 
 
 
-    delete []tablicaPrzystosowan;
+   // delete []tablicaPrzystosowan;
     usunPopulacje(*&stara);
     stara=tmp;
 }
@@ -397,6 +413,7 @@ void Osobnik::sortuj(int Losobnikow) //narazie dziala poprzez zamiane odpowiedni
 {
     double temp=0;
     bool *temp2;
+    double temp3=0;
     for(int i = 0; i<Losobnikow; i++)
            for (Osobnik * p = this; p->nastepny_osobnik_; p = p->nastepny_osobnik_)
                if(p->przystosowanie_ < p->nastepny_osobnik_->przystosowanie_) //!!!!!!!!!
@@ -408,5 +425,9 @@ void Osobnik::sortuj(int Losobnikow) //narazie dziala poprzez zamiane odpowiedni
                    temp2=p->genotyp_;
                    p->genotyp_=p->nastepny_osobnik_->genotyp_;
                    p->nastepny_osobnik_->genotyp_=temp2;
+
+                   temp3=p->zdekodowany_;
+                   p->zdekodowany_=p->nastepny_osobnik_->zdekodowany_;
+                   p->nastepny_osobnik_->zdekodowany_=temp3;
                }
 }
