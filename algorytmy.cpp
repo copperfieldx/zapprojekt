@@ -8,6 +8,7 @@ using namespace std; //COUTy do testow
 //zasadnicza czesc programu; dziala po wczytaniu danych i jest odpowiedzialna za caly przebieg
 void operujNaDanych(Dane* wejscie)
 {
+    ustawRozdzielczosc(wejscie);
     Osobnik* populacja=new Osobnik(wejscie->LBitow());
     //tworze pierwsza populacje, wyswietlam, sortuje i znow wyswietlam - test poprawnosci
     populacja=tworzPopulacje(wejscie);
@@ -53,11 +54,21 @@ int binToDec(bool *tab_bool, int liczba_bitow) //tablica boolowska i jej rozmiar
     return wynik;
 }
 
+//wywolana raz i zapisana wartosc - oszczednosc wywolan
+double rozdzielczosc(int poczatek_przedzialu, int koniec_przedzialu, int liczba_bitow)
+{
+    double tmp=1.0*(koniec_przedzialu-poczatek_przedzialu)/(pow(2,liczba_bitow)-1);
+    return tmp;
+}
+
+void ustawRozdzielczosc(Dane *tmp)
+{
+    tmp->rozdzielczosc_=rozdzielczosc(tmp->poczatek_przedzialu_, tmp->koniec_przedzialu_, tmp->liczba_bitow_);
+}
 
 //dekoduje liczbe reprezentowana przez Osobnika na liczbe(punkt) w przedziale w ktorym szukamy minimum
-double dekoduj(/*Osobnik *os1,*/ bool* tab_bool, int poczatek_przedzialu, int koniec_przedzialu, int liczba_bitow )
+double dekoduj( bool* tab_bool, int poczatek_przedzialu, int liczba_bitow, double rozdzielczosc)
 {
-    double rozdzielczosc=1.0*(koniec_przedzialu-poczatek_przedzialu)/(pow(2,liczba_bitow)-1);
     double wynik=poczatek_przedzialu+binToDec(tab_bool, liczba_bitow)*rozdzielczosc;
     return wynik;
 }

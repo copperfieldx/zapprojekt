@@ -8,6 +8,7 @@ class Dane
     int liczba_bitow_;
     int liczba_osobnikow_;
     int liczba_pokolen_;
+    double rozdzielczosc_; //wyliczana w trakcie
 
 public:
     Dane();
@@ -18,9 +19,11 @@ public:
     int LBitow();
     int LOsobnikow();
     int LPokolen();
+    double Rozdzielczosc();
     bool wczytajDaneZPliku();
     bool wczytajDaneZKlawiatury();
     void drukujDane();
+    friend void ustawRozdzielczosc(Dane*);
 
 };
 

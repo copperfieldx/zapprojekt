@@ -36,6 +36,11 @@ int Dane::LPokolen()
     return liczba_pokolen_;
 }
 
+double Dane::Rozdzielczosc()
+{
+    return rozdzielczosc_;
+}
+
 bool Dane::wczytajDaneZPliku()
 {
     fstream wejscie;
@@ -82,3 +87,4 @@ void Dane::drukujDane()
     cout<<"liczba elementow "<<liczba_osobnikow_<<endl;
     cout<<"liczba pokolen "<<liczba_pokolen_<<endl;
 }
+
