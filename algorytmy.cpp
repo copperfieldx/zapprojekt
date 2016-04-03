@@ -16,8 +16,8 @@ void operujNaDanych(Dane* wejscie)
     populacja->wyswietlPopulacje();
     cykl(populacja,wejscie); // !! tutaj się dzieje !!
     //populacja->wyswietlPopulacje();
-    delete populacja;
-   // populacja->wyswietlPopulacje();
+    usunPopulacje2(*& populacja);
+    populacja->wyswietlPopulacje();
 }
 
 
@@ -64,7 +64,7 @@ double g(double x)
 }
 
 /*funkcja celu nr 1, przykladowo 7x^6-4x^4+3,5x^3-24*x^2+14/(x^2+1);
-posiada ekstrema minimum w x1=-1.20496 rowne f(x1)=-22.2665 oraz w x2=1.10024 rowne f(x2)=-11.0521
+posiada ekstrema minimum w x1=-1.20496 rowne f(x1)=-22.2665 oraz w x2=1.10024 rowne f(x2)=-11.5021
 f(x1) jest ekstremum globalnym, f(x2) moze powodowac przedwczesna zbieznosc */
 
 double f1(double x)

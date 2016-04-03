@@ -10,7 +10,7 @@ Osobnik::Osobnik(int x)
 {
     rozmiar_=x;
     genotyp_=new bool[x];
-    //zdekodowany_=0; //dodane potem, zalezne od dlugosci przedzialu!
+    zdekodowany_=0; //dodane potem, zalezne od dlugosci przedzialu!
     nastepny_osobnik_=NULL;
     przystosowanie_=0; //musi być edytowane potem, bo zależne od m.in. od dlugosci przedzialu
 }
@@ -19,6 +19,7 @@ Osobnik::Osobnik(int x)
 Osobnik::~Osobnik()
 {
     delete []genotyp_;
+    nastepny_osobnik_=NULL;
 }
 
 //3 funkcje zwracajace odpowiednie pola, moga sie przydac przy funkcjach innych niz metody i zaprzyjaznione;
@@ -48,7 +49,8 @@ void Osobnik::wyswietlPopulacje()
         {
             cout<<akt->genotyp_[i];
         }
-        cout<<" "<<akt->przystosowanie_<<endl; //do testow
+        cout<<" "<<akt->zdekodowany_<<"\t";
+        cout<<" "<<akt->przystosowanie_<<endl;//do testow
         akt=akt->nastepny_osobnik_;
     }
     cout<<endl;
@@ -71,14 +73,23 @@ void Osobnik::mutuj(int y)
     genotyp_[x]=!genotyp_[x];
 }
 
-//po stworzeniu populacji ustawia wartosc przystosowania(podana jako argument i wyliczona inna funkcja)
-void Osobnik::ustalPrzystosowanie(double wartosc)
-{
-    przystosowanie_=wartosc;
-}
 
 //usuwanie populacji - sprawdz czy dziala i nie ma wycieku pamieci;
-void usunPopulacje(Osobnik *wsk)
+void usunPopulacje(Osobnik *&wsk)
+{
+    Osobnik *akt=wsk;
+    Osobnik *tmp=wsk;
+    while(akt)
+    {
+        tmp=akt;
+        akt=akt->nastepny_osobnik_;
+        delete tmp;
+    }
+}
+
+
+//do ostatniej nadrzednej(w operujnadanych())- z wyswietleniem - do testow
+void usunPopulacje2(Osobnik *&wsk)
 {
     Osobnik *akt=wsk;
     Osobnik *tmp=wsk;
@@ -92,6 +103,7 @@ void usunPopulacje(Osobnik *wsk)
     }
     cout<<"populacja usunieta \n\n";
 }
+
 
 
 Osobnik* Osobnik::zwrocAdresITegoElementu(int x)
@@ -117,7 +129,8 @@ Osobnik* tworzPopulacje(Dane* wejscie)
         if(i==0)tmp=pl;
         else tmp=new Osobnik(LBitow);
         tmp->losuj();
-        tmp->przystosowanie_=g(dekoduj(tmp->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),LBitow));
+        tmp->zdekodowany_=dekoduj(tmp->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow());
+        tmp->przystosowanie_=f1(tmp->zdekodowany_);
         akt->nastepny_osobnik_=tmp;
         akt=akt->nastepny_osobnik_;
     }
@@ -125,10 +138,11 @@ Osobnik* tworzPopulacje(Dane* wejscie)
     return pl;
 }
 
-//ułomna metoda rankingowa
+//metoda rankingu linowego
 void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
 {
 
+   //dla met.rankingowej mozna to zrobic raz i sie odwolywac!!
     int LOsobnikow=wejscie->LOsobnikow();
     int sumaPrzystosowan=((1+LOsobnikow)/2)*LOsobnikow; //(1+n)/2*n - suma ciagu liczb od 1 do n;
     int* tablicaPrzystosowan=new int[LOsobnikow];
@@ -138,13 +152,16 @@ void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
         x=x+i+1; //1, 1+2, (1+2)+3, etc.
         tablicaPrzystosowan[i]=x; //zawiera "przedzialy"
     }
+
+
+
     Osobnik *akt=new Osobnik(wejscie->LBitow());
     Osobnik *tmp=akt;
     Osobnik *pom1=NULL;
     Osobnik *pom2=NULL;
 
 
-    for(int i=0;i<LOsobnikow;i++)
+    for(int i=0;i<LOsobnikow;i++) //sprawdz inna metode z 2 osobnikow powstaje 2 osobniki!!
     {
         int los1=rand()%sumaPrzystosowan+1;
         pom1=stara;
@@ -204,16 +221,117 @@ void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
             akt->mutuj(wejscie->LBitow());
         }
         //!!!!
-        akt->przystosowanie_=g(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        akt->zdekodowany_=dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow());
+        akt->przystosowanie_=f1(akt->zdekodowany_);
         akt=akt->nastepny_osobnik_;
     }
 
 
 
     delete []tablicaPrzystosowan;
-    stara->~Osobnik(); //hmm?
+    usunPopulacje(*&stara); //hmm?
     stara=tmp;
 }
+
+void tworzKolejnaPopulacjeVol3(Osobnik* &stara, Dane* wejscie)
+{
+
+   //dla met.rankingowej mozna to zrobic raz i sie odwolywac!!
+    int LOsobnikow=wejscie->LOsobnikow();
+    int sumaPrzystosowan=((1+LOsobnikow)/2)*LOsobnikow; //(1+n)/2*n - suma ciagu liczb od 1 do n;
+    int* tablicaPrzystosowan=new int[LOsobnikow];
+    int x=0;
+    for(int i=0;i<LOsobnikow;i++)
+    {
+        x=x+i+1; //1, 1+2, (1+2)+3, etc.
+        tablicaPrzystosowan[i]=x; //zawiera "przedzialy"
+    }
+
+
+
+    Osobnik *akt=new Osobnik(wejscie->LBitow());
+    Osobnik *tmp=akt;
+    Osobnik *pom1=NULL;
+    Osobnik *pom2=NULL;
+
+
+    for(int i=0;i<LOsobnikow;i++) //sprawdz inna metode z 2 osobnikow powstaje 2 osobniki!!
+    {
+        int los1=rand()%sumaPrzystosowan+1;
+        pom1=stara;
+        pom2=stara;
+
+        for(int j=1;j<LOsobnikow-1;j++)
+        {
+            if(los1==1)
+            {
+                pom1=stara->zwrocAdresITegoElementu(1);
+                break;
+            }
+            if(los1>tablicaPrzystosowan[j] && los1<=tablicaPrzystosowan[j+1])
+            {
+              pom1=stara->zwrocAdresITegoElementu(j+2);
+                 break;
+            }
+        }
+
+       do
+       {
+        int los2=rand()%sumaPrzystosowan+1;
+        for(int j=1;j<LOsobnikow-1;j++)
+        {
+            if(los2==1)
+            {
+                pom2=stara->zwrocAdresITegoElementu(1);
+                break;
+            }
+            if(los2>tablicaPrzystosowan[j] && los2<=tablicaPrzystosowan[j+1])
+            {
+               pom2=stara->zwrocAdresITegoElementu(j+2);
+                break;
+            }
+        }
+       }
+      while(pom1==pom2); //zabezpieczenie, zeby nie losowal tych samych
+
+        krzyzuj(pom1,pom2,akt);
+        //akt->przystosowanie_=f1(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        if(i+1<LOsobnikow)
+        {
+        akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
+        akt=akt->adresNastepnego();
+        krzyzuj(pom2,pom1,akt);
+        akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
+        akt=akt->adresNastepnego();
+
+        }
+
+
+    }
+
+    //mutacja skopiowana
+    int prawdmut=0;
+    akt=tmp;
+    for(int i=0;i<LOsobnikow;i++)
+    {
+        prawdmut=rand()%10;
+        if(prawdmut>8)//przypadek 1/10, prawdopodobienstwo 10%; do przemyslenia
+        {
+            akt->mutuj(wejscie->LBitow());
+        }
+        // !!!!
+        akt->zdekodowany_=dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow());
+        akt->przystosowanie_=f1(akt->zdekodowany_);
+        akt=akt->nastepny_osobnik_;
+    }
+
+
+
+    delete []tablicaPrzystosowan;
+    usunPopulacje(*&stara);
+    stara=tmp;
+}
+
 
 //ulomna wersja tworzenia nowej populacji na podstawie poprzedniej - nalezy napisac nowa z metoda rankingowa/turniejow/kola ruletki/jakakolwiek
 void tworzKolejna(Osobnik* stara, Dane* wejscie)
@@ -253,7 +371,8 @@ void tworzKolejna(Osobnik* stara, Dane* wejscie)
         {
             akt->mutuj(wejscie->LBitow());
         }
-        akt->przystosowanie_=g(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        akt->zdekodowany_=dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow());
+        akt->przystosowanie_=f1(akt->zdekodowany_);
         akt=akt->nastepny_osobnik_;
     }
 
