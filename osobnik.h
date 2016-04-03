@@ -35,10 +35,10 @@ public:
 //poszukaj czy to jest konieczne; bez tego prosi o deklaracje
 void usunPopulacje(Osobnik *&wsk);
 void usunPopulacje2(Osobnik *&wsk);
-Osobnik* tworzPopulacje(Dane *);
-void tworzKolejna(Osobnik *, Dane*); // do cyklu
-void tworzKolejnaPopulacjeVol2(Osobnik *&, Dane *, int, int*);
-void tworzKolejnaPopulacjeVol3(Osobnik *&, Dane *, int, int*);
+Osobnik* tworzPopulacje(Dane *); //pierwsza populacja
+void tworzKolejna(Osobnik *, Dane*); //kolejna populacja, ulomna, ale napisana jako pierwsza :D
+void tworzKolejnaPopulacjeVol2(Osobnik *&, Dane *, int, int*);//metoda rankingu liniowego - z 2 osobnikow zawsze 1 i znowu to samo
+void tworzKolejnaPopulacjeVol3(Osobnik *&, Dane *, int, int*);//metoda rankingu liniowego - z 2 osobnikow zawsze 2 podzial pol na pol
 void krzyzuj(Osobnik *, Osobnik *, Osobnik*);
 
 #endif // OSOBNIK_H
