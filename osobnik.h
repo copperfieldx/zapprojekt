@@ -1,6 +1,5 @@
 #ifndef OSOBNIK_H
 #define OSOBNIK_H
-//#include"algorytmy.h"
 #include "dane.h"
 
 
@@ -25,18 +24,16 @@ public:
     void ustalPrzystosowanie(double);
     void sortuj(int);
     Osobnik* zwrocAdresITegoElementu(int);
-    //friend Osobnik* zwrocAdresITegoElementu(Osobnik*, int);
     friend Osobnik* tworzPopulacje(Dane *);
     friend void tworzKolejna(Osobnik*, Dane *);
     friend void tworzKolejnaPopulacjeVol2(Osobnik*&, Dane*);
     friend void usunPopulacje(Osobnik *wsk);
-    friend double dekoduj(Osobnik *, int , int , int );
+    //friend double dekoduj(bool *, int , int , int );
     friend void krzyzuj(Osobnik *, Osobnik *, Osobnik *);
-    friend void zamien(bool&,bool&);
+    //friend void zamien(bool&,bool&);
 };
 
 //poszukaj czy to jest konieczne; bez tego prosi o deklaracje
-//Osobnik* zwrocAdresITegoElementu(Osobnik*, int);
 Osobnik* tworzPopulacje(Dane *);
 void tworzKolejna(Osobnik *, Dane*); // do cyklu
 void tworzKolejnaPopulacjeVol2(Osobnik *&, Dane *);

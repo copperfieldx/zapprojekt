@@ -5,7 +5,8 @@
 
 void operujNaDanych(Dane*);
 int binToDec(bool *, int );
-double dekoduj(Osobnik *, int , int , int );
+double dekoduj(bool *, int , int , int );
+double g(double);
 double f1(double);
 double f2(double);//funkcja celu, f1- w domyśle do dodania następne; funkcja CIĄGŁA!(przynajmniej narazie) //do przemyślenia
 void zamien(bool &, bool &);

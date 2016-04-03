@@ -2,7 +2,6 @@
 #include "algorytmy.h"
 #include "dane.h"
 #include<cstdlib>
-#include<ctime>
 #include<iostream>
 using namespace std; //usunac obydwa
 
@@ -118,7 +117,7 @@ Osobnik* tworzPopulacje(Dane* wejscie)
         if(i==0)tmp=pl;
         else tmp=new Osobnik(LBitow);
         tmp->losuj();
-        tmp->przystosowanie_=f1(dekoduj(tmp,wejscie->Poczatek(),wejscie->Koniec(),LBitow));
+        tmp->przystosowanie_=g(dekoduj(tmp->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),LBitow));
         akt->nastepny_osobnik_=tmp;
         akt=akt->nastepny_osobnik_;
     }
@@ -185,7 +184,7 @@ void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
       while(pom1==pom2); //zabezpieczenie, zeby nie losowal tych samych
 
         krzyzuj(pom1,pom2,akt);
-        //akt->przystosowanie_=f1(dekoduj(akt,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        //akt->przystosowanie_=f1(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
         if(i+1<LOsobnikow)
         {
         akt->nastepny_osobnik_=new Osobnik(wejscie->LBitow());
@@ -205,7 +204,7 @@ void tworzKolejnaPopulacjeVol2(Osobnik* &stara, Dane* wejscie)
             akt->mutuj(wejscie->LBitow());
         }
         //!!!!
-        akt->przystosowanie_=f1(dekoduj(akt,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        akt->przystosowanie_=g(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
         akt=akt->nastepny_osobnik_;
     }
 
@@ -254,7 +253,7 @@ void tworzKolejna(Osobnik* stara, Dane* wejscie)
         {
             akt->mutuj(wejscie->LBitow());
         }
-        akt->przystosowanie_=f1(dekoduj(akt,wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
+        akt->przystosowanie_=g(dekoduj(akt->zwrocGenotyp(),wejscie->Poczatek(),wejscie->Koniec(),wejscie->LBitow()));
         akt=akt->nastepny_osobnik_;
     }
 

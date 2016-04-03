@@ -1,4 +1,4 @@
-    #ifndef DANE_H
+#ifndef DANE_H
 #define DANE_H
 
 class Dane
@@ -12,13 +12,14 @@ class Dane
 public:
     Dane();
     //~Dane();
-    //5 funkcji zwracajacych odpowiednie pola dla funkcji innych niz metody i f. zaprzyjaznione; czy są konieczne? POMYSL
+    //5 funkcji zwracajacych odpowiednie pola dla funkcji innych niz metody i f. zaprzyjaznione;
     int Poczatek();
     int Koniec();
     int LBitow();
     int LOsobnikow();
     int LPokolen();
-    bool wczytajDane();
+    bool wczytajDaneZPliku();
+    bool wczytajDaneZKlawiatury();
     void drukujDane();
 
 };
