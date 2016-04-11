@@ -1,4 +1,5 @@
 #include "dane.h"
+#include "algorytmy.h"
 #include<fstream> //wczytanie z pliku
 #include<iostream> //wczytanie z klawiatury i drukowanie
 using namespace std;
@@ -6,10 +7,6 @@ using namespace std;
 Dane::Dane()
 {    
 }
-
-/*Dane::~Dane()
-{
-}*/
 
 int Dane::Poczatek()
 {
@@ -39,6 +36,16 @@ int Dane::LPokolen()
 double Dane::Rozdzielczosc()
 {
     return rozdzielczosc_;
+}
+
+double Dane::xMIN()
+{
+    return xMIN_;
+}
+
+double Dane::yMIN()
+{
+    return yMIN_;
 }
 
 bool Dane::wczytajDaneZPliku()
@@ -78,7 +85,8 @@ bool Dane::wczytajDaneZKlawiatury()
     return 1;
 }
 
-//jak sama nazwa mowi; stworzona glownie do testow czy wczytanie z pliku dziala jak nalezy;
+
+/*
 void Dane::drukujDane()
 {
     cout<<"poczatek przedzialu "<<poczatek_przedzialu_<<endl;
@@ -86,5 +94,28 @@ void Dane::drukujDane()
     cout<<"liczba bitow "<<liczba_bitow_<<endl;
     cout<<"liczba elementow "<<liczba_osobnikow_<<endl;
     cout<<"liczba pokolen "<<liczba_pokolen_<<endl;
+}
+*/
+
+void Dane::zapiszDoPliku()
+{
+    fstream wyjscie;
+    string nazwa;
+    cout<<"Podaj nazwe pliku do ktorego chcesz zapisac wynik:(z koncowka *.txt):"<<endl;
+    cin>>nazwa;
+    wyjscie.open(nazwa.c_str(), ios::out);
+    wyjscie<<this->xMIN()<<"\t"<<this->yMIN();
+    wyjscie.close();
+}
+
+void Dane::ustawRozdzielczosc()
+{
+    this->rozdzielczosc_=rozdzielczosc(this->poczatek_przedzialu_, this->koniec_przedzialu_, this->liczba_bitow_);
+}
+
+void Dane::ustawWyjscie(double xMIN, double yMIN)
+{
+    this->xMIN_=xMIN;
+    this->yMIN_=yMIN;
 }
 

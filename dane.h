@@ -9,10 +9,11 @@ class Dane
     int liczba_osobnikow_;
     int liczba_pokolen_;
     double rozdzielczosc_; //wyliczana w trakcie
+    double xMIN_;
+    double yMIN_;
 
 public:
     Dane();
-    //~Dane();
     //5 funkcji zwracajacych odpowiednie pola dla funkcji innych niz metody i f. zaprzyjaznione;
     int Poczatek();
     int Koniec();
@@ -20,10 +21,14 @@ public:
     int LOsobnikow();
     int LPokolen();
     double Rozdzielczosc();
+    double xMIN();
+    double yMIN();
     bool wczytajDaneZPliku();
     bool wczytajDaneZKlawiatury();
-    void drukujDane();
-    friend void ustawRozdzielczosc(Dane*);
+    //void drukujDane();
+    void zapiszDoPliku();
+    void ustawRozdzielczosc();
+    void ustawWyjscie(double, double);
 
 };
 

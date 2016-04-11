@@ -1,24 +1,24 @@
 #include"algorytmy.h"
 #include <cmath>
 #include<iostream>
-using namespace std; //COUTy do testow
+using namespace std;
 
 
 
 //zasadnicza czesc programu; dziala po wczytaniu danych i jest odpowiedzialna za caly przebieg
 void operujNaDanych(Dane* wejscie)
 {
-    ustawRozdzielczosc(wejscie);
+    wejscie->ustawRozdzielczosc();
     Osobnik* populacja=new Osobnik(wejscie->LBitow());
-    //tworze pierwsza populacje, wyswietlam, sortuje i znow wyswietlam - test poprawnosci
     populacja=tworzPopulacje(wejscie);
-    populacja->wyswietlPopulacje();
-    populacja->sortuj(wejscie->LOsobnikow());
+    populacja->sortuj();
     populacja->wyswietlPopulacje();
     cykl(populacja,wejscie); // !! tutaj się dzieje !!
-    //populacja->wyswietlPopulacje();
-    usunPopulacje2(*& populacja);
-    //populacja->wyswietlPopulacje();
+
+    double xMIN=populacja->zwrocAdresITegoElementu(wejscie->LOsobnikow())->zdekodowany();
+    double yMIN=populacja->zwrocAdresITegoElementu(wejscie->LOsobnikow())->przystosowanie();
+    wejscie->ustawWyjscie(xMIN,yMIN);
+    usunPopulacje(*& populacja);
 }
 
 
@@ -31,9 +31,8 @@ void cykl(Osobnik* &populacja, Dane* wejscie)
 
     for(int i=0;i<wejscie->LPokolen();i++)
     {
-    tworzKolejnaPopulacjeVol3(populacja,wejscie,suma,tablica); //metoda rankingu liniowego(ma przedwczesna zbieznosc)
-   // tworzKolejna(populacja, wejscie); //ułomna metoda nr1
-    populacja->sortuj(wejscie->LOsobnikow());
+    tworzKolejnaPopulacje(populacja,wejscie,suma,tablica); //metoda rankingu liniowego
+    populacja->sortuj();
     populacja->wyswietlPopulacje(); //do sledzenia na biezaco
     }
 }
@@ -48,8 +47,6 @@ int binToDec(bool *tab_bool, int liczba_bitow) //tablica boolowska i jej rozmiar
         wynik=wynik+tab_bool[i]*potegadwojki;
         potegadwojki/=2;
     }
-//    cout<<" "<<wynik<<" ";
-
     return wynik;
 }
 
@@ -60,10 +57,7 @@ double rozdzielczosc(int poczatek_przedzialu, int koniec_przedzialu, int liczba_
     return tmp;
 }
 
-void ustawRozdzielczosc(Dane *tmp)
-{
-    tmp->rozdzielczosc_=rozdzielczosc(tmp->poczatek_przedzialu_, tmp->koniec_przedzialu_, tmp->liczba_bitow_);
-}
+
 
 //dekoduje liczbe reprezentowana przez Osobnika na liczbe(punkt) w przedziale w ktorym szukamy minimum
 double dekoduj( bool* tab_bool, int poczatek_przedzialu, int liczba_bitow, double rozdzielczosc)
@@ -72,16 +66,11 @@ double dekoduj( bool* tab_bool, int poczatek_przedzialu, int liczba_bitow, doubl
     return wynik;
 }
 
-//minimum w x=-0.422884; f(x)=-2.24537;
-double g(double x)
-{
-    double y=pow(x,3)-pow(x,2)+sin(4*x)-cos(15*x);
-    return y;
-}
 
-/*funkcja celu nr 1, przykladowo 7x^6-4x^4+3,5x^3-24*x^2+14/(x^2+1);
+/*
+funkcja celu nr 1, przykladowo 7x^6-4x^4+3,5x^3-24*x^2+14/(x^2+1);
 posiada ekstrema minimum w x1=-1.20496 rowne f(x1)=-22.2665 oraz w x2=1.10024 rowne f(x2)=-11.5021
-f(x1) jest ekstremum globalnym, f(x2) moze powodowac przedwczesna zbieznosc */
+*/
 
 double f1(double x)
 {
@@ -90,14 +79,7 @@ double f1(double x)
     return y;
 }
 
-//prosta funkcja - do testow;
-double f2(double x)
-{
-    double y=pow(x,2)-6*x+5;
-    return y;
-}
-
-//zamienia wartosciami dwie zmienne boolowskie - do operacji krzyzowania(?)
+//zamienia wartosciami dwie zmienne boolowskie - do operacji krzyzowania
 void zamien(bool &x1, bool &x2)
 {
     bool y=x1;
@@ -123,3 +105,5 @@ int* tablicaPrzystosowan(int LOsobnikow)
     }
     return tmp;
 }
+
+
